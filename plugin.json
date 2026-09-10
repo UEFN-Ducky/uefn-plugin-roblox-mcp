@@ -1,0 +1,83 @@
+{
+  "id": "roblox-mcp",
+  "kind": "plugin",
+  "version": "1.0.0",
+  "label": "ROBLOX MCP",
+  "description": "Control Roblox Studio from Ducky. Wraps the official Studio MCP server plus Open Cloud (publish, assets, DataStores). One Assistant toggle, then drive places from the same uefn MCP.",
+  "min_app_version": "1.0.0",
+  "default_enabled": true,
+  "secret_keys": [
+    "roblox_open_cloud_key"
+  ],
+  "contributes": {
+    "settings.tabs": [
+      {
+        "id": "Roblox",
+        "label": "Roblox",
+        "icon": "assets/icon.svg",
+        "ui": "sections"
+      }
+    ],
+    "settings.sections": [
+      {
+        "tab": "Roblox",
+        "id": "studio",
+        "title": "Studio MCP",
+        "description": "Open Roblox Studio, then Assistant → ⋯ → Manage MCP Servers → Enable Studio as MCP server. Ducky talks to Studio through %LOCALAPPDATA%\\Roblox\\mcp.bat — do not add a Roblox_Studio row to Cursor mcp.json.",
+        "order": 10,
+        "properties": []
+      },
+      {
+        "tab": "Roblox",
+        "id": "cloud",
+        "title": "Open Cloud",
+        "description": "Optional. Create a key at create.roblox.com/credentials with Place Publishing, asset, and DataStore scopes. Stored encrypted on this device. Needed for publish / cloud assets / DataStores — not for live Studio editing.",
+        "order": 20,
+        "properties": [
+          {
+            "id": "roblox_open_cloud_key",
+            "type": "secret",
+            "label": "Open Cloud API key",
+            "placeholder": "Paste key…",
+            "testable": true,
+            "description": "Creator Dashboard → Credentials → API key. Test introspects the key (enabled, scopes, IP)."
+          }
+        ]
+      }
+    ],
+    "walkthrough": {
+      "id": "roblox-mcp",
+      "title": "Roblox setup",
+      "auto_start": "first_enable",
+      "settings_tab": "Roblox",
+      "steps": [
+        {
+          "target": "settings.tab.roblox",
+          "title": "Enable Studio as MCP server",
+          "body": "In Roblox Studio: Assistant → ⋯ → Manage MCP Servers → turn on Enable Studio as MCP server. Open a place. Ducky already owns the connection — do not paste JSON into Cursor.",
+          "advance": "next",
+          "mode": "rect"
+        },
+        {
+          "target": "settings.tab.roblox",
+          "title": "Optional Open Cloud key",
+          "body": "Live Studio work needs no key. For publish, asset upload, or DataStores: paste a Creator Dashboard API key here and hit Test. Scopes: universe-places write, asset read/write, universe-datastores objects.",
+          "advance": "next"
+        }
+      ]
+    },
+    "agent.tools": {
+      "category": "roblox",
+      "intent_pattern": "\\b(roblox|luau|roblox\\s*studio|studio\\s*mcp|datamodel|open\\s*cloud)\\b",
+      "plan_tools": [
+        "roblox_status",
+        "roblox_list_tools",
+        "roblox_cloud_status"
+      ]
+    }
+  },
+  "backend": {
+    "entry": "backend",
+    "register": "register"
+  }
+}
