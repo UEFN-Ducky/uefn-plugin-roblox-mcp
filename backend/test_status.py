@@ -13,6 +13,8 @@ class FakeApi:
         self.enabled = enabled
         self.tools: dict[str, object] = {}
         self.secret_tests: dict[str, object] = {}
+        self.connection_fn = None
+        self.connection_kwargs: dict[str, object] = {}
 
     def is_enabled(self) -> bool:
         return self.enabled
@@ -29,6 +31,10 @@ class FakeApi:
 
     def register_secret_test(self, key: str, fn: object) -> None:
         self.secret_tests[key] = fn
+
+    def connection(self, fn: object, **kwargs: object) -> None:
+        self.connection_fn = fn
+        self.connection_kwargs = kwargs
 
 
 def _register(api: FakeApi | None = None) -> FakeApi:
@@ -103,6 +109,29 @@ def test_register_tools_and_secret_test() -> None:
     assert "roblox_cloud_publish_place" in api.tools
     assert "roblox_bridge_export" in api.tools
     assert "roblox_open_cloud_key" in api.secret_tests
+    assert api.connection_fn is plugin._connection_row
+    assert api.connection_kwargs.get("label") == "Roblox MCP"
+    assert api.connection_kwargs.get("program") == "roblox"
+
+
+def test_connection_row_ready() -> None:
+    with (
+        patch("backend.runtime.mcp_launch", return_value={"ok": True}),
+        patch("backend.client.session_status", return_value={"phase": "ready"}),
+    ):
+        row = plugin._connection_row()
+    assert row["online"] is True
+    assert "Studio MCP" in row["detail"]
+
+
+def test_connection_row_missing_studio() -> None:
+    with (
+        patch("backend.runtime.mcp_launch", return_value={"ok": False}),
+        patch("backend.client.session_status", return_value={"phase": "idle"}),
+    ):
+        row = plugin._connection_row()
+    assert row["online"] is False
+    assert "Roblox Studio" in row["detail"]
 
 
 def test_roblox_status_tool_json() -> None:

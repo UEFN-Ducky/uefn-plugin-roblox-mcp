@@ -24,6 +24,10 @@ def register(api: Any) -> None:
 
         api.register_secret_test(SECRET_KEY, test_api_key)
 
+    connect = getattr(api, "connection", None)
+    if callable(connect):
+        connect(_connection_row, label="Roblox MCP", program="roblox")
+
     @api.tool(name="roblox_status", intent=INTENT, listener=False)
     def roblox_status() -> str:
         """Report ROBLOX MCP readiness: Studio stdio, open places, Open Cloud key."""
@@ -292,6 +296,27 @@ def _stop_runtime() -> None:
     _RUNTIME_THREAD = None
     if thread and thread.is_alive() and thread is not threading.current_thread():
         thread.join(timeout=2.0)
+
+
+def _connection_row() -> dict[str, Any]:
+    """Cheap Connections probe — session state only, no Studio tool list."""
+    from . import client, runtime
+
+    launch = runtime.mcp_launch()
+    session = client.session_status()
+    phase = str(session.get("phase") or "idle")
+    if not launch.get("ok"):
+        return {"online": False, "detail": "Offline · open Roblox Studio"}
+    if phase == "ready":
+        return {"online": True, "detail": "Connected · Studio MCP"}
+    if phase == "mcp_disabled":
+        return {"online": False, "warn": True, "detail": "Offline · enable Studio as MCP server"}
+    if phase == "starting":
+        return {"online": False, "warn": True, "detail": "Connecting · Studio MCP"}
+    if phase == "error":
+        err = str(session.get("error") or session.get("detail") or "error")
+        return {"online": False, "detail": f"Offline · {err}"[:160]}
+    return {"online": False, "detail": "Offline · Studio MCP"}
 
 
 def _tools_status(phase: str) -> dict[str, Any]:
