@@ -16,9 +16,8 @@ _STOP = threading.Event()
 
 
 def register(api: Any) -> None:
-    if api.is_enabled():
-        _start_runtime_async(api.log)
-
+    # ponytail: no Studio stdio until a tool actually needs it. Header probes
+    # read session_status() only.
     if hasattr(api, "register_secret_test"):
         from .cloud import test_api_key
 
@@ -302,9 +301,11 @@ def _connection_row() -> dict[str, Any]:
     """Cheap Connections probe — session state only, no Studio tool list."""
     from . import client, runtime
 
-    launch = runtime.mcp_launch()
     session = client.session_status()
     phase = str(session.get("phase") or "idle")
+    if phase in {"idle", ""}:
+        return {"online": False, "detail": "Idle · not used this session"}
+    launch = runtime.mcp_launch()
     if not launch.get("ok"):
         return {"online": False, "detail": "Offline · open Roblox Studio"}
     if phase == "ready":

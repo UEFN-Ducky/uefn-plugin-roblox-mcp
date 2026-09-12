@@ -124,10 +124,23 @@ def test_connection_row_ready() -> None:
     assert "Studio MCP" in row["detail"]
 
 
+def test_connection_row_idle_until_used() -> None:
+    with patch("backend.client.session_status", return_value={"phase": "idle"}):
+        row = plugin._connection_row()
+    assert row["online"] is False
+    assert "not used" in row["detail"]
+
+
+def test_register_does_not_start_runtime() -> None:
+    with patch.object(plugin, "_start_runtime_async") as start:
+        _register(FakeApi(enabled=True))
+    assert not start.called
+
+
 def test_connection_row_missing_studio() -> None:
     with (
         patch("backend.runtime.mcp_launch", return_value={"ok": False}),
-        patch("backend.client.session_status", return_value={"phase": "idle"}),
+        patch("backend.client.session_status", return_value={"phase": "missing_studio"}),
     ):
         row = plugin._connection_row()
     assert row["online"] is False
