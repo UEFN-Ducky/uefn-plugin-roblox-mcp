@@ -16,8 +16,9 @@ _STOP = threading.Event()
 
 
 def register(api: Any) -> None:
-    # ponytail: no Studio stdio until a tool actually needs it. Header probes
-    # read session_status() only.
+    if api.is_enabled():
+        _start_runtime_async(api.log)
+
     if hasattr(api, "register_secret_test"):
         from .cloud import test_api_key
 
@@ -245,31 +246,45 @@ def _coerce_arguments(arguments: Any) -> dict[str, Any]:
     raise ValueError("arguments must be an object")
 
 
+def _retry_wait(phase: str, launch_ok: bool) -> float:
+    """How long to sit before the next auto-connect attempt."""
+    if phase == "ready":
+        return 12.0
+    if not launch_ok:
+        return 30.0
+    if phase == "mcp_disabled":
+        return 60.0
+    return 12.0
+
+
 def _start_runtime_async(log_fn: Any) -> None:
     global _RUNTIME_THREAD
     _STOP.clear()
 
     def _run() -> None:
-        from . import client
+        from . import client, runtime
 
         try:
-            log_fn("ROBLOX MCP connecting to Studio stdio")
+            log_fn("ROBLOX MCP auto-connect")
         except Exception:
             pass
         try:
-            status = client.ensure_session()
-            try:
-                log_fn(f"ROBLOX MCP session phase={status.get('phase')}")
-            except Exception:
-                pass
             while not _STOP.is_set():
-                if _STOP.wait(12.0):
+                launch = runtime.mcp_launch()
+                phase = str(client.session_status().get("phase") or "idle")
+                if launch.get("ok") and phase != "ready":
+                    try:
+                        status = client.ensure_session()
+                        phase = str(status.get("phase") or phase)
+                        try:
+                            log_fn(f"ROBLOX MCP session phase={phase}")
+                        except Exception:
+                            pass
+                    except Exception as exc:
+                        log.warning("session ensure failed: %s", exc)
+                        phase = "error"
+                if _STOP.wait(_retry_wait(phase, bool(launch.get("ok")))):
                     break
-                try:
-                    if client.session_status().get("phase") != "ready":
-                        client.ensure_session()
-                except Exception as exc:
-                    log.warning("session ensure failed: %s", exc)
         except Exception as exc:
             log.warning("roblox runtime failed: %s", exc)
             try:
@@ -301,18 +316,16 @@ def _connection_row() -> dict[str, Any]:
     """Cheap Connections probe — session state only, no Studio tool list."""
     from . import client, runtime
 
+    launch = runtime.mcp_launch()
     session = client.session_status()
     phase = str(session.get("phase") or "idle")
-    if phase in {"idle", ""}:
-        return {"online": False, "detail": "Idle · not used this session"}
-    launch = runtime.mcp_launch()
     if not launch.get("ok"):
         return {"online": False, "detail": "Offline · open Roblox Studio"}
     if phase == "ready":
         return {"online": True, "detail": "Connected · Studio MCP"}
     if phase == "mcp_disabled":
         return {"online": False, "warn": True, "detail": "Offline · enable Studio as MCP server"}
-    if phase == "starting":
+    if phase in {"starting", "idle"}:
         return {"online": False, "warn": True, "detail": "Connecting · Studio MCP"}
     if phase == "error":
         err = str(session.get("error") or session.get("detail") or "error")
