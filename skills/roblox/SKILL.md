@@ -9,7 +9,7 @@ description: >-
 license: MIT
 metadata:
   label: ROBLOX MCP
-  version: 1
+  version: 2
   author: UEFN-Ducky
   copyright: Copyright 2026 Mindful Path Company, LLC
   allow_redistribute: true
@@ -87,3 +87,7 @@ key from [create.roblox.com/credentials](https://create.roblox.com/credentials).
   paste JSON into Cursor.
 - If Studio is unreachable, `roblox_redeploy` — do not retry UEFN tools as a substitute.
 - Open Cloud needs a key. Live Studio editing does not.
+
+## Verify
+
+`roblox_status` then the Studio/Cloud read that proves the change.
