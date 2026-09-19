@@ -1,7 +1,7 @@
 {
   "id": "roblox-mcp",
   "kind": "plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "label": "ROBLOX MCP",
   "description": "Control Roblox Studio from Ducky. Wraps the official Studio MCP server plus Open Cloud (publish, assets, DataStores). One Assistant toggle, then drive places from the same uefn MCP.",
   "min_app_version": "1.0.0",
@@ -23,7 +23,7 @@
         "tab": "Roblox",
         "id": "studio",
         "title": "Studio MCP",
-        "description": "Open Roblox Studio, then Assistant → ⋯ → Manage MCP Servers → Enable Studio as MCP server. Ducky talks to Studio through %LOCALAPPDATA%\\Roblox\\mcp.bat — do not add a Roblox_Studio row to Cursor mcp.json.",
+        "description": "Open Roblox Studio, then Assistant \u2192 \u22ef \u2192 Manage MCP Servers \u2192 Enable Studio as MCP server. Ducky talks to Studio through %LOCALAPPDATA%\\Roblox\\mcp.bat \u2014 do not add a Roblox_Studio row to Cursor mcp.json.",
         "order": 10,
         "properties": []
       },
@@ -31,16 +31,16 @@
         "tab": "Roblox",
         "id": "cloud",
         "title": "Open Cloud",
-        "description": "Optional. Create a key at create.roblox.com/credentials with Place Publishing, asset, and DataStore scopes. Stored encrypted on this device. Needed for publish / cloud assets / DataStores — not for live Studio editing.",
+        "description": "Optional. Create a key at create.roblox.com/credentials with Place Publishing, asset, and DataStore scopes. Stored encrypted on this device. Needed for publish / cloud assets / DataStores \u2014 not for live Studio editing.",
         "order": 20,
         "properties": [
           {
             "id": "roblox_open_cloud_key",
             "type": "secret",
             "label": "Open Cloud API key",
-            "placeholder": "Paste key…",
+            "placeholder": "Paste key\u2026",
             "testable": true,
-            "description": "Creator Dashboard → Credentials → API key. Test introspects the key (enabled, scopes, IP)."
+            "description": "Creator Dashboard \u2192 Credentials \u2192 API key. Test introspects the key (enabled, scopes, IP)."
           }
         ]
       }
@@ -54,7 +54,7 @@
         {
           "target": "settings.tab.roblox",
           "title": "Enable Studio as MCP server",
-          "body": "In Roblox Studio: Assistant → ⋯ → Manage MCP Servers → turn on Enable Studio as MCP server. Open a place. Ducky already owns the connection — do not paste JSON into Cursor.",
+          "body": "In Roblox Studio: Assistant \u2192 \u22ef \u2192 Manage MCP Servers \u2192 turn on Enable Studio as MCP server. Open a place. Ducky already owns the connection \u2014 do not paste JSON into Cursor.",
           "advance": "next",
           "mode": "rect"
         },
