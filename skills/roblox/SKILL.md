@@ -1,11 +1,6 @@
 ---
 name: roblox
-description: >-
-  Control Roblox Studio through the ROBLOX MCP Store plugin. Call roblox_status,
-  then roblox_list_tools / roblox_call for the official Studio MCP (scripts,
-  Luau, playtest, assets). Open Cloud tools (publish, assets, DataStores) need
-  a Creator Dashboard API key. Use when the user mentions Roblox, Luau, Studio,
-  or Open Cloud. Do not wait for UEFN.
+description: "Control Roblox Studio through the ROBLOX MCP plugin: roblox_status, then roblox_list_tools and roblox_call for scripts, Luau, playtest and assets; Open Cloud tools (publish, assets, DataStores) need an API key. Use for Roblox, Luau, Studio or Open Cloud work."
 license: MIT
 metadata:
   label: ROBLOX MCP

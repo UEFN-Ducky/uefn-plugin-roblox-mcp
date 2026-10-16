@@ -1,10 +1,10 @@
 {
   "id": "roblox-mcp",
   "kind": "plugin",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "label": "ROBLOX MCP",
   "description": "Control Roblox Studio from Ducky. Wraps the official Studio MCP server plus Open Cloud (publish, assets, DataStores). One Assistant toggle, then drive places from the same uefn MCP.",
-  "min_app_version": "1.0.0",
+  "min_app_version": "1.2.357",
   "default_enabled": true,
   "secret_keys": [
     "roblox_open_cloud_key"

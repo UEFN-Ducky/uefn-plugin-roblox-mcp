@@ -1,3 +1,9 @@
+---
+description: "Roblox DataStores: read and write player data from Luau DataStoreService or the roblox_cloud_datastore_* tools, scopes, keys and safe changes"
+metadata:
+  label: "DataStores"
+---
+
 # DataStores
 
 Two APIs, same data:

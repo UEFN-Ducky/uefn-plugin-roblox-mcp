@@ -1,3 +1,9 @@
+---
+description: "Roblox Data Model instances: search the game tree, inspect properties, create and parent parts and folders with Edit Luau, naming and anchoring conventions"
+metadata:
+  label: "Instances"
+---
+
 # Instances
 
 The Data Model is a tree. Query it; do not guess.

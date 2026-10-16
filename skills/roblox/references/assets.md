@@ -1,3 +1,9 @@
+---
+description: "Roblox assets in Studio: generate meshes and materials, search the Creator Store, insert by asset id, upload images, and upload FBX through Open Cloud"
+metadata:
+  label: "Assets"
+---
+
 # Assets (Studio)
 
 Studio MCP can generate and insert without Open Cloud:

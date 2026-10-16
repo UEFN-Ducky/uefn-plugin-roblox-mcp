@@ -1,3 +1,9 @@
+---
+description: "Playtest a Roblox place from MCP: start and stop play, read console output, capture the screen, simulate input and run client or server Luau"
+metadata:
+  label: "Playtest"
+---
+
 # Playtest
 
 | Tool | Use |

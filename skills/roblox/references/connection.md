@@ -1,3 +1,9 @@
+---
+description: "Roblox Studio connection layers and fixes: plugin enabled, mcp.bat launcher, Enable Studio as MCP server, open place, Open Cloud key; read roblox_status states"
+metadata:
+  label: "Connection"
+---
+
 # Connection
 
 ## Layers

@@ -1,3 +1,9 @@
+---
+description: "Writing Roblox Luau: where server, client and shared scripts live, ModuleScript patterns, player join handlers, and running Luau through MCP"
+metadata:
+  label: "Luau"
+---
+
 # Luau (Studio)
 
 Roblox scripts are **Luau**, not Verse. No effect specifiers, no `spawn_actor`.

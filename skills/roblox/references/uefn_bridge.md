@@ -1,3 +1,9 @@
+---
+description: "Move files between Roblox and UEFN or Blender: screenshots, FBX and asset metadata through the roblox_bridge folder; what cannot be shared between the games"
+metadata:
+  label: "UEFN and Roblox bridge"
+---
+
 # UEFN ↔ Roblox hop
 
 Same Ducky chat can call both stacks. That is **not** a shared game session.

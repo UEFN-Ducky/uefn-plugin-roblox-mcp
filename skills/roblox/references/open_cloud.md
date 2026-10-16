@@ -1,3 +1,9 @@
+---
+description: "Roblox Open Cloud: API key scopes, list universes, publish places, upload and read assets, DataStore calls with the roblox_cloud_* tools"
+metadata:
+  label: "Open Cloud"
+---
+
 # Open Cloud
 
 Needs Settings → Roblox → API key. `roblox_cloud_status` first.

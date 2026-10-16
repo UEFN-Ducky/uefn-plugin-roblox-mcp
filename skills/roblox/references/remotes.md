@@ -1,3 +1,9 @@
+---
+description: "Roblox RemoteEvents and RemoteFunctions: server-authoritative client to server calls, validating arguments, rate limits and purchase safety"
+metadata:
+  label: "Remotes"
+---
+
 # Remotes
 
 Client cannot trust itself. Server owns money, inventory, damage.

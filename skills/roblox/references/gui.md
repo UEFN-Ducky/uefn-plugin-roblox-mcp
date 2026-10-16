@@ -1,3 +1,9 @@
+---
+description: "Roblox player UI: StarterGui and ScreenGui structure, scaling for phone and desktop, client buttons with server authority, building UI through MCP"
+metadata:
+  label: "GUI"
+---
+
 # GUI
 
 Player UI lives under `StarterGui` (cloned per player) or a ScreenGui you

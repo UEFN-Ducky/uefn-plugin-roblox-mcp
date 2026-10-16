@@ -1,3 +1,9 @@
+---
+description: "The official Roblox Studio MCP tool groups and rules: list studios first, pass studio_id on every change, scripts, tree, Luau and playtest tools"
+metadata:
+  label: "Studio MCP tools"
+---
+
 # Studio MCP tools
 
 Source of truth is `roblox_list_tools` (schemas change with Studio). Official

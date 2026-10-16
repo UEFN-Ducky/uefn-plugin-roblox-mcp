@@ -1,3 +1,9 @@
+---
+description: "Find, read and edit Roblox Studio scripts through MCP: script_search, script_grep, script_read and multi_edit with dot paths and small patches"
+metadata:
+  label: "Scripts"
+---
+
 # Scripts
 
 Studio MCP script tools use **dot paths** (`game.ServerScriptService.MyScript`).
