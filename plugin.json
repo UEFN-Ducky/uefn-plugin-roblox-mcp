@@ -6,6 +6,7 @@
   "description": "Control Roblox Studio from Ducky. Wraps the official Studio MCP server plus Open Cloud (publish, assets, DataStores). One Assistant toggle, then drive places from the same uefn MCP.",
   "min_app_version": "1.2.357",
   "default_enabled": true,
+  "data_sharing": false,
   "secret_keys": [
     "roblox_open_cloud_key"
   ],
